@@ -1,0 +1,19 @@
+{
+  "FilePath": "c:\\Users\\樹育\\Desktop\\vue\\VueJS_course\\Demo\\Lab_WebAPI_ToDo\\finished\\Lab_WebAPI_Todo\\Lab_WebAPI_Todo\\Lab_WebAPI_Todo.csproj",
+  "Configuration": {
+    "ConfigurationName": "MVC-3.0",
+    "LanguageVersion": "3.0",
+    "Extensions": [
+      {
+        "ExtensionName": "MVC-3.0"
+      }
+    ]
+  },
+  "ProjectWorkspaceState": {
+    "TagHelpers": [],
+    "CSharpLanguageVersion": 800
+  },
+  "RootNamespace": "Lab_WebAPI_Todo",
+  "Documents": [],
+  "SerializationFormat": "0.2"
+}

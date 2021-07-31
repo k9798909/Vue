@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+  <form id="form" class="form-horizontal" method="post" action="https://course-lab-php.azurewebsites.net/echo.php" >
+    <fieldset>
+
+      <!-- Form Name -->
+      <legend>Lab Form</legend>
+
+      <!-- Multiple Checkboxes -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="cities">城市:</label>
+        <div class="col-md-4">
+          <div class="checkbox" v-for="city in cityList">
+            <label :for="city.id">
+              <input v-model="cities" type="checkbox" name="cities[]" :id="city.id" :value="city.no">
+              {{city.name}}
+            </label>
+          </div>
+          {{cities}}
+        </div>
+      </div>
+      <input class="btn btn-primary" type="submit">
+    </fieldset>
+  </form>
+
+
+  <script>
+    var labApp = new Vue({
+      el: "#form",
+      data: {
+        cities: [1, 3],
+        cityList: [
+          {
+            id: "cities-1",
+            no: 1,
+            name: "台北"
+          },
+          {
+            id: "cities-2",
+            no: 2,
+            name: "台中"
+          },
+          {
+            id: "cities-3",
+            no: 3,
+            name: "台南"
+          }
+        ]
+      },
+    })
+
+
+  </script>
+
+</body>
+
+</html>

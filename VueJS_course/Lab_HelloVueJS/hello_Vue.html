@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body div {
+            font-family: sans-serif;
+            font-size: 1.25em;
+            border: 1px solid gray;
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app1">
+        <div>
+            單向綁定 : <input :value="message">
+            雙向綁定 : <input v-model="message">
+            <div>
+                <p>{{message}}</p>
+            </div>
+        </div>
+
+        <div>
+            <span v-bind:title="message">
+                移到上方
+            </span>
+
+            <span :title="message">
+                移到上方
+            </span>
+        </div>
+
+        <div>
+            <button v-on:click="showAlert">點擊</button>
+
+            <button @click="showAlert">點擊</button>
+        </div>
+
+        <div>
+            <button @click="() => show = !show">顯示</button>
+            <p v-if="show">SHOW</p>
+        </div>
+
+        <ul>
+            <li v-for="item in list" @click="itemClick($event,item.text)">
+                title={{item.title}}
+                text={{item.text}}
+            </li>
+        </ul>
+
+    </div>
+
+
+    <script>
+        var app1 = new Vue({
+            el: '#app1',
+            data: {
+                message: 'HELLO',
+                show: false,
+                list: [
+                    {
+                        title: 'title1',
+                        text: 'text1'
+                    },
+
+                    {
+                        title: 'title2',
+                        text: 'text2'
+                    },
+
+                    {
+                        title: 'title3',
+                        text: 'text3'
+                    },
+                ]
+            },
+            methods: {
+
+                showAlert: () => {
+                    alert('HELLO');
+                },
+
+                itemClick: function (e,msg) {
+                    alert(e + msg);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
