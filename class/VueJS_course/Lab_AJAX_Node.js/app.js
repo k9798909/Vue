@@ -11,8 +11,8 @@ app.use( express.static( "public" ) );
 
 // 以 body-parser 模組協助 Express 解析表單與JSON資料
 var bodyParser = require('body-parser');
-app.use( bodyParser.json() );
-app.use( bodyParser.urlencoded({extended: false}) );
+app.use( express.json() );
+app.use( express.urlencoded({extended: false}) );
 
 // 一切就緒，開始接受用戶端連線
 // app.listen(process.env.PORT);
@@ -38,3 +38,9 @@ app.post("/test", function (request, response) {
 	response.send(firstName + " " + lastName);
 });
 
+app.post("/test2", function (request, response) {
+	var firstName = request.body.firstName;
+	var lastName = request.body.lastName;
+	var prefix = request.headers.prefix;
+	response.send(prefix + " " + firstName + " " + lastName);
+});

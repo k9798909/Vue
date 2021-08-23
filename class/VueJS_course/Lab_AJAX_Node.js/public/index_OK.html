@@ -12,6 +12,7 @@
             font-size: 1.25em;
         }
     </style>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -126,15 +127,18 @@
 
 
 
-            $("#getButton").on("click", function() {
+            // $("#getButton").on("click", function() {
+            //     var s = $("#nameTextBox").val();
+            //     $.get("/hello/" + s, function(e) {
+            //         $("#reportSpan").text(e);
+            //     })
+            // })
+
+            $("#getButton").on("click", async function() {
                 var s = $("#nameTextBox").val();
-
-                $.get("/hello/" + s, function(e) {
-                    $("#reportSpan").text(e);
-                })
-
+                var result = await axios.get("/hello/" + s);
+                $("#reportSpan").text(result.data);
             })
-
 
 
             // $("#postButton").on("click", function() {
@@ -150,25 +154,58 @@
             // })
 
 
-            $("#postButton").on("click", function() {
+            // $("#postButton").on("click", function() {
+            //     var dataToServer = {
+            //         firstName: $("#firstNameTextBox").val(),
+            //         lastName: $("#lastNameTextBox").val()
+            //     }
+            //     $.ajax({
+            //         type: "post",
+            //         url: "/test",
+            //         data: JSON.stringify(dataToServer),
+            //         contentType: "application/json",
+            //         success: function(e) {
+            //             $("#resultSpan").text(e);
+            //         }
+            //     })
+            // })
+
+            // // 記得要加上 async function()
+            // $("#postButton").on("click", async function() {
+            //     var dataToServer = {
+            //         firstName: $("#firstNameTextBox").val(),
+            //         lastName: $("#lastNameTextBox").val()
+            //     }
+            //     var result = await $.ajax({
+            //         type: "post",
+            //         url: "/test",
+            //         data: JSON.stringify(dataToServer),
+            //         contentType: "application/json"
+            //     });                
+            //     $("#resultSpan").text(result);
+            // })
+
+            // 記得要加上 async function()
+            $("#postButton").on("click", async function() {
                 var dataToServer = {
                     firstName: $("#firstNameTextBox").val(),
                     lastName: $("#lastNameTextBox").val()
-                }
-
-                $.ajax({
-                    type: "post",
-                    url: "/test",
-                    data: JSON.stringify(dataToServer),
-                    contentType: "application/json",
-                    success: function(e) {
-                        $("#resultSpan").text(e);
+                };
+                var config = {
+                    headers: {
+                        "content-type": "application/json",
+                        "prefix": "Mr."
                     }
-                })
-            })
+                }
+                let result = await axios.post(
+                    "/test2", 
+                    JSON.stringify(dataToServer), 
+                    config);
 
+                $("#resultSpan").text(result.data);
+            });
 
-
+            
 
         });
     </script>
