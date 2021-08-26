@@ -10,7 +10,8 @@ axios.interceptors.request.use(
     config.headers = { // 如果沒有cors的問題則可以都不加
       "Access-Control-Allow-Origin": process.env.API_ROOT,
       "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
-      "Access-Control-Max-Age": "86400"
+      "Access-Control-Max-Age": "86400",
+      'Content-type': 'application/json; charset=utf-8',
     };
     return config;
   },
@@ -48,5 +49,6 @@ axios.interceptors.response.use(
 
 export const getProductList = () => axios.get("/product");
 export const getProduct = (productId:string) => axios.get(`product/${productId}`);
-// export const getProductList = axios.get("/product");
-// export const getProductList = axios.get("/product");
+export const updateProduct = (product:any) => axios.put("/product",product);
+export const addProduct =(product:any) => axios.post("/product",product);
+export const deleteProduct =(productDtos:any) => axios.delete("/product",{ data : {deleteId : productDtos}});
