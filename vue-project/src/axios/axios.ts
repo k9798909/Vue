@@ -51,4 +51,4 @@ export const getProductList = () => axios.get("/product");
 export const getProduct = (productId:string) => axios.get(`product/${productId}`);
 export const updateProduct = (product:any) => axios.put("/product",product);
 export const addProduct =(product:any) => axios.post("/product",product);
-export const deleteProduct =(productDtos:any) => axios.delete("/product",{ data : {deleteId : productDtos}});
+export const deleteProduct =(productDto:any) => axios.delete("/product",{ data :  productDto});

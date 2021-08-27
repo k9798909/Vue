@@ -19,7 +19,7 @@
         </thead>
         <tbody>
           <tr v-for="(product, index) in productList" :key="index">
-            <td><input class="form-check-input" type="checkbox" :value="index" v-model="deleteIndex"></td>
+            <td><input class="form-check-input" type="checkbox" :value="product.productId" v-model="deleteProductDto.deleteId"></td>
             <th scope="row">{{ index + 1 }}</th>
             <td>{{ product.productId }}</td>
             <td>{{ product.productName }}</td>
@@ -128,7 +128,9 @@ export default defineComponent({
                productPrice:'',
                productQty:'',
              },
-             deleteIndex:[], 
+             deleteProductDto:{
+               deleteId : [],
+             }, 
              isModify: false,
              addModal:false,
              dtModal:false };
@@ -176,10 +178,9 @@ export default defineComponent({
     },
     async deleteData() {
       try {
-        let deleteProductDtos = this.deleteIndex.map(index => {
-          return this.productList[index];
-        })
-        deleteProduct(deleteProductDtos);
+        deleteProduct(this.deleteProductDto);
+        this.productList = (await getProductList()).data;
+        alert("刪除成功");
       }catch(e){
         console.log(e);
       }
