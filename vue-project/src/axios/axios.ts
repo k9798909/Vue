@@ -47,8 +47,10 @@ axios.interceptors.response.use(
   }
 );
 
-export const getProductList = () => axios.get("/product");
+
+
+export const getProductList  = () => axios.get("/product");
 export const getProduct = (productId:string) => axios.get(`product/${productId}`);
-export const updateProduct = (product:any) => axios.put("/product",product);
-export const addProduct =(product:any) => axios.post("/product",product);
-export const deleteProduct =(productDto:any) => axios.delete("/product",{ data :  productDto});
+export const updateProduct = (product:unknown) => axios.put("/product",product);
+export const addProduct =(product:unknown) => axios.post("/product",product);
+export const deleteProduct =(productDto:unknown) => axios.delete("/product",{ data :  productDto});

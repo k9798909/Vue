@@ -7,7 +7,7 @@
       </div>
       <table class="table">
         <thead>
-          <tr>
+          <tr class="text-center">
             <th scope="col">#</th>
             <th scope="col">序號</th>
             <th scope="col">商品編號</th>
@@ -18,18 +18,30 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(product, index) in productList" :key="index">
+          <tr class="text-center align-middle" v-for="(product, index) in currentProductArray" :key="index">
             <td><input class="form-check-input" type="checkbox" :value="product.productId" v-model="deleteProductDto.deleteId"></td>
-            <th scope="row">{{ index + 1 }}</th>
+            <th scope="row">{{ this.currentPage*10 + index + 1 }}</th>
             <td>{{ product.productId }}</td>
             <td>{{ product.productName }}</td>
             <td>{{ product.productPrice }}</td>
             <td>{{ product.productQty }}</td>
-            <td><button class="btn" @click="getDtData(product.productId)">明細</button></td>
+            <td><button class="btn btn-primary" @click="getDtData(product.productId)">明細</button></td>
           </tr>
         </tbody>
       </table>
     </div>
+  <div class="d-flex justify-content-center mb-3">
+    <div class="btn-toolbar">
+      <div class="btn-group me-2">
+        <button type="button" class="btn btn-outline-primary" @click="changePage(currentPage - 1)">上一頁</button>
+        <button type="button" class="btn btn-outline-primary" 
+          v-for="(page,index) in Math.ceil((productList.length/10))" :key="page" 
+          @click="changePage(index)">{{page}}</button>
+        <button type="button" class="btn btn-outline-primary" @click="changePage(currentPage + 1)">下一頁</button>
+      </div>
+    </div>
+  </div>
+
 
     <div v-if="dtModal"  class="su-modal" tabindex="-1">
       <div class="modal-dialog">
@@ -115,12 +127,14 @@ export default defineComponent({
   async mounted() {
     try {
       this.productList = (await getProductList()).data;
+      this.currentProductArray = this.productList.slice(0,this.productList.length < 10 ? this.productList.length % 10 : 10);
     }catch(e){
       console.log(e);
     }
   },
   data: () => {
-    return { productList: {}, 
+    return { productList: [],
+             currentProductArray: [], 
              productDt: {}, 
              addProduct: {
                peoductId :'',
@@ -133,7 +147,8 @@ export default defineComponent({
              }, 
              isModify: false,
              addModal:false,
-             dtModal:false };
+             dtModal:false,
+             currentPage:0 };
   },
   methods : {
     modifyInputClass() {
@@ -147,6 +162,7 @@ export default defineComponent({
       try {
         this.dtModal = true;
         this.isModify = false;
+        this.productDt = {};
         this.productDt = (await getProduct(id)).data;
       }catch(e){
         console.log(e);
@@ -159,6 +175,7 @@ export default defineComponent({
           this.productList = (await getProductList()).data;
           alert("更新成功");
           this.dtModal = false;
+          this.changePage(this.currentPage);
         }catch(e){
           console.log(e);
         }
@@ -172,6 +189,7 @@ export default defineComponent({
         this.productList = (await getProductList()).data;
         alert("新增成功");
         this.addModal = false;
+        this.changePage(this.currentPage);
       }catch(e){
         console.log(e);
       }
@@ -181,11 +199,19 @@ export default defineComponent({
         deleteProduct(this.deleteProductDto);
         this.productList = (await getProductList()).data;
         alert("刪除成功");
+        this.changePage(this.currentPage);
       }catch(e){
         console.log(e);
       }
     },
-
+    changePage(page:number) {
+      if(page < Math.ceil(this.productList.length / 10) && 0 <= page) {
+        this.currentPage = page;
+        let starPage = this.currentPage*10;
+        let endPage = starPage + 10 > this.productList.length ? starPage + (this.productList.length % 10) : 10;
+        this.currentProductArray = this.productList.slice(starPage,endPage);
+      }
+    }
   }
 });
 </script>
