@@ -19,13 +19,13 @@
         </thead>
         <tbody>
           <tr class="text-center align-middle" v-for="(product, index) in currentProductArray" :key="index">
-            <td><input class="form-check-input" type="checkbox" :value="product.productId" v-model="deleteProductDto.deleteId"></td>
-            <th scope="row">{{ this.currentPage*10 + index + 1 }}</th>
-            <td>{{ product.productId }}</td>
-            <td>{{ product.productName }}</td>
-            <td>{{ product.productPrice }}</td>
-            <td>{{ product.productQty }}</td>
-            <td><button class="btn btn-primary" @click="getDtData(product.productId)">明細</button></td>
+            <td><input class="form-check-input" type="checkbox" :value="product.proid" v-model="deleteProductDto.proid"></td>
+            <th scope="row">{{ currentPage * 10 + index + 1 }}</th>
+            <td>{{ product.proid }}</td>
+            <td>{{ product.proname }}</td>
+            <td>{{ product.proprice }}</td>
+            <td>{{ product.proqty }}</td>
+            <td><button class="btn btn-primary" @click="getDtData(product.proid)">明細</button></td>
           </tr>
         </tbody>
       </table>
@@ -53,21 +53,21 @@
           <div class="modal-body">
 
             <div class="d-flex mb-2">    
-              <label for="productId" class="col-form-label">產品編號：</label>
-              <input type="text" readonly="true" class="form-control-plaintext w-50" id="productId" v-model="productDt.productId">
+              <label for="proid" class="col-form-label">產品編號：</label>
+              <input type="text" readonly="true" class="form-control-plaintext w-50" id="proid" v-model="productDt.proid">
             </div>
             <div class="d-flex mb-2">
-              <label for="productName" class="col-form-label">產品名稱：</label>
-              <input type="text" :readonly="!isModify" :class="modifyInputClass()" id="productName" v-model="productDt.productName">
+              <label for="proname" class="col-form-label">產品名稱：</label>
+              <input type="text" :readonly="!isModify" :class="modifyInputClass()" id="proname" v-model="productDt.proname">
             </div>
             <div>
               <div class="d-flex mb-2">
-                <label for="productPrice" class="col-form-label">產品價錢：</label>
-                <input type="text" :readonly="!isModify" :class="modifyInputClass()" id="productPrice" v-model="productDt.productPrice">
+                <label for="proprice" class="col-form-label">產品價錢：</label>
+                <input type="text" :readonly="!isModify" :class="modifyInputClass()" id="proprice" v-model="productDt.proprice">
               </div>
               <div class="d-flex mb-2">
-                <label for="productQty" class="col-form-label">產品數量：</label>
-                <input type="text" :readonly="!isModify" :class="modifyInputClass()" id="productQty" v-model="productDt.productQty">
+                <label for="proqty" class="col-form-label">產品數量：</label>
+                <input type="text" :readonly="!isModify" :class="modifyInputClass()" id="proqty" v-model="productDt.proqty">
               </div>
             </div>
 
@@ -90,17 +90,17 @@
           <div class="modal-body">
 
             <div class="d-flex mb-2">
-              <label for="productName" class="col-form-label">產品名稱：</label>
-              <input type="text" class="form-control w-50" id="productName" v-model="addProduct.productName">
+              <label for="proname" class="col-form-label">產品名稱：</label>
+              <input type="text" class="form-control w-50" id="proname" v-model="addProduct.proname">
             </div>
             <div>
               <div class="d-flex mb-2">
-                <label for="productPrice" class="col-form-label">產品價錢：</label>
-                <input type="text" class="form-control w-50" id="productPrice" v-model="addProduct.productPrice">
+                <label for="proprice" class="col-form-label">產品價錢：</label>
+                <input type="text" class="form-control w-50" id="proprice" v-model="addProduct.proprice">
               </div>
               <div class="d-flex mb-2">
-                <label for="productQty" class="col-form-label">產品數量：</label>
-                <input type="text" class="form-control w-50" id="productQty" v-model="addProduct.productQty">
+                <label for="proqty" class="col-form-label">產品數量：</label>
+                <input type="text" class="form-control w-50" id="proqty" v-model="addProduct.proqty">
               </div>
             </div>
 
@@ -122,6 +122,13 @@
 import { defineComponent } from "vue";
 import { getProductList,getProduct,updateProduct,addProduct,deleteProduct } from "@/axios/axios"
 
+interface Product {
+  proid : number,
+  proname : string,
+  proprice : number,
+  proqty : number,
+}
+
 export default defineComponent({
   name: "product",
   async mounted() {
@@ -132,23 +139,23 @@ export default defineComponent({
       console.log(e);
     }
   },
-  data: () => {
-    return { productList: [],
-             currentProductArray: [], 
-             productDt: {}, 
+  data() {
+    return { productList: [] as Product[],
+             currentProductArray: [] as Product[], 
+             productDt: {} as Product, 
              addProduct: {
-               peoductId :'',
-               productName:'',
-               productPrice:'',
-               productQty:'',
+               proid :'',
+               proname:'',
+               proprice:'',
+               proqty:'',
              },
              deleteProductDto:{
-               deleteId : [],
+               proid : [],
              }, 
              isModify: false,
              addModal:false,
              dtModal:false,
-             currentPage:0 };
+             currentPage:0 as number };
   },
   methods : {
     modifyInputClass() {
@@ -158,11 +165,11 @@ export default defineComponent({
         return 'form-control-plaintext w-50';
       }
     },
-    async getDtData(id:string) {
+    async getDtData(id:number) {
       try {
         this.dtModal = true;
         this.isModify = false;
-        this.productDt = {};
+        this.productDt = {} as Product;
         this.productDt = (await getProduct(id)).data;
       }catch(e){
         console.log(e);
@@ -196,9 +203,14 @@ export default defineComponent({
     },
     async deleteData() {
       try {
-        deleteProduct(this.deleteProductDto);
-        this.productList = (await getProductList()).data;
+          let products = this.deleteProductDto.proid.map(id => {
+          let product = {proid:''};
+          product.proid = id;
+          return product;
+        })
+        deleteProduct(products);
         alert("刪除成功");
+        this.productList = (await getProductList()).data;
         this.changePage(this.currentPage);
       }catch(e){
         console.log(e);

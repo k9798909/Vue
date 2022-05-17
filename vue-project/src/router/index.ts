@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-
+import store from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -15,7 +15,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/product',
     name: 'product',
+    meta: { requireLogin: true },
     component: () => import('@/views/Product.vue')
+  },
+  {
+    path: '/userdata',
+    name: 'userdata',
+    meta: { requireLogin: true },
+    component: () => import('@/views/Userdata.vue')
   },
   {
     path: '/testVuex',
@@ -27,6 +34,18 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  
+  if (to.matched.some(record => record.meta.requireLogin) && !store.state.isLogin) {
+    next({
+      path: '/login',
+      query: { redirect: to.fullPath }
+    })
+  } else {
+    next()
+  }
 })
 
 export default router

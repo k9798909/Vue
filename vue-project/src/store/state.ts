@@ -1,4 +1,4 @@
 export default {
-    myName : "吳樹育",
+    myName : "3123",
     count:1
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header></Header>
+    <Header class="mb-3"></Header>
     <router-view></router-view>
   </div>
 </template>
@@ -18,13 +18,22 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC&family=Roboto&display=swap");
 
 img {
   display: block;
 }
 
-*,*::before,*::after {
-  font-family: 'Roboto','Noto Sans TC', sans-serif;
+*,
+*::before,
+*::after {
+  font-family: "Roboto", "Noto Sans TC", sans-serif;
+}
+
+html,
+body,
+#app,
+#app > div {
+  height: 100%;
 }
 </style>

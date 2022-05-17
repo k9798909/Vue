@@ -8,10 +8,13 @@
             </a>
             <ul class="navbar-nav flex-row justify-content-around w-50">
                 <li class="nav-item">
-                    <router-link class="nav-link active" to="/product">商品資訊</router-link>
+                    <router-link class="nav-link active" to="/product">商品管理</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" to="/testVuex">個人資訊</router-link>
+                    <router-link class="nav-link" :to="{ path: '/userdata'}">個人資訊</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/testVuex">testVuex</router-link>
                 </li>
                 <li class="nav-item">
                     <router-link class="nav-link" to="#">測試資料</router-link>
@@ -20,16 +23,31 @@
                     <router-link class="nav-link" to="#">測試資料</router-link>
                 </li>
             </ul>
-            <button @click='()=>$router.push("/login")' class="btn btn-outline-light" type="button">登入</button>
+            <button v-if="!isLogin" @click='()=>$router.push("/login")' class="btn btn-outline-light" type="button">登入</button>
+            <h5 v-if="isLogin" class="text-white px-2">{{loginData.name}} 你好!</h5>
         </div>
     </nav>     
   </div>
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from "vue";
+import { mapGetters } from "vuex";
 
-}
+export default defineComponent ({
+    name: "Hesder",
+    computed:  {
+    ...mapGetters(["isLogin","loginData"]),
+    },
+    data() {
+        return {
+
+        };
+    },
+    methods: {
+
+    }
+})
 </script>
 
 <style lang="scss">
