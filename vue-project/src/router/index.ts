@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import store from '@/store'
+import { checkLogin } from '../axios/axios';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -36,13 +37,27 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  
+router.beforeEach(async (to, from, next) => {
+  try {
+    if (!sessionStorage.getItem("checkLogin")) {
+      sessionStorage.setItem("checkLogin", "check");
+      const res = (await checkLogin()).data;
+      console.log(res.data);
+      if (res.data) {
+        store.dispatch('loginAction');
+        store.dispatch('loginDataAction', res.data);
+      }
+    }
+    
+  } catch (e) {
+    console.log(e);
+  }
+
   if (to.matched.some(record => record.meta.requireLogin) && !store.state.isLogin) {
     next({
       path: '/login',
       query: { redirect: to.fullPath }
-    })
+    });
   } else {
     next()
   }

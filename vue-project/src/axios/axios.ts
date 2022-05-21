@@ -18,6 +18,7 @@ export const addProduct = (product: unknown): Promise<any> => apiClient.post("/p
 export const deleteProduct = (products: unknown): Promise<any> => apiClient.delete("/product/delete", { data: products });
 
 export const getUserData = (id: number): Promise<any> => apiClient.get(`/user/${id}`);
+export const checkLogin = (): Promise<any> => apiClient.get(`/user/isLogin`);
 
 // http request 欄截
 const loginApiClient: AxiosInstance = axios.create({

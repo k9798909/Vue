@@ -6,11 +6,12 @@ export default createStore({
   state: {
     myName : "asdasd",
     count:1,
-    isLogin:false,
+    isLogin:  false,
     loginData: {
       id : '',
       username : '',
-      name : '',
+      name :  '',
+      token :  '',
     }
   },
   getters: {
@@ -24,12 +25,15 @@ export default createStore({
       state.myName = myName
     },
     login(state) {
+      console.log('login');
       state.isLogin = true;
     },
     loginData(state,data) {
+      console.log('loginData');
       state.loginData.id = data.id;
       state.loginData.username = data.username;
       state.loginData.name = data.name;
+      state.loginData.token = data.token;
     },
   },
   actions: {
